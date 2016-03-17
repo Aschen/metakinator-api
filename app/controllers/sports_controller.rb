@@ -63,6 +63,12 @@ class SportsController < ApplicationController
     end
   end
 
+  def export
+    service = ExportService.new
+    service.write
+    send_data service.filename, filename: "export.xlsx"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_sport
