@@ -2,7 +2,7 @@ class ExportService
 
   attr_accessor :errors, :questions, :filename
 
-  def initialize(filename = "#{Rails.root}/tmp/export.xlsx")
+  def initialize(filename = "#{Rails.root}/public/export.xlsx")
     @errors = []
     @filename = filename
     @workbook = WriteXLSX.new(filename)
