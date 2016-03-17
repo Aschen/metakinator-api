@@ -1,4 +1,4 @@
-class ExportService
+class ExportExcelService
 
   attr_accessor :errors, :questions, :filename
 
