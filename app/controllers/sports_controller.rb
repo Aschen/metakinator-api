@@ -66,7 +66,7 @@ class SportsController < ApplicationController
   def export
     service = ExportService.new
     service.write
-    send_data service.filename, filename: "export.xlsx"
+    send_file service.filename, filename: "export.xlsx"
   end
 
   private
