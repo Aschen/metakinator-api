@@ -1,0 +1,20 @@
+= form_for @sport do |f|
+  - if @sport.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@sport.errors.count, "error")} prohibited this sport from being saved:"
+      ul
+        - @sport.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.label :name
+    = f.text_field :name
+
+  - i = 0
+  - @questions.each do |question|
+    label "#{question.title} ?"
+    = select_tag "sport[questions][#{question.id}]", options_for_select(Hash[Answer.answers.to_a.reverse], Answer.answers[@sport.answers[i].try(:answer)])
+    br
+    - i += 1
+
+  .actions = f.submit

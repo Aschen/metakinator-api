@@ -1,0 +1,25 @@
+h1 Listing answers
+
+table
+  thead
+    tr
+      th Sport
+      th Question
+      th Answer
+      th
+      th
+      th
+
+  tbody
+    - @answers.each do |answer|
+      tr
+        td = answer.sport_id
+        td = answer.question_id
+        td = answer.answer
+        td = link_to 'Show', answer
+        td = link_to 'Edit', edit_answer_path(answer)
+        td = link_to 'Destroy', answer, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Answer', new_answer_path

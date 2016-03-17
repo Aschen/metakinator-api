@@ -1,0 +1,21 @@
+h1 Listing sports
+
+table
+  thead
+    tr
+      th Name
+      th
+      th
+      th
+
+  tbody
+    - @sports.each do |sport|
+      tr
+        td = sport.name
+        td = link_to 'Show', sport
+        td = link_to 'Edit', edit_sport_path(sport)
+        td = link_to 'Destroy', sport, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Sport', new_sport_path
