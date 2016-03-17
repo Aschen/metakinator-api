@@ -1,6 +1,7 @@
 class Answer < ActiveRecord::Base
 
   belongs_to :question
+  belongs_to :sport
 
   enum answer: {
     yes: 1,
