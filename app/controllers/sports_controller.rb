@@ -63,10 +63,15 @@ class SportsController < ApplicationController
     end
   end
 
-  def export
-    service = ExportService.new
+  def export_excel
+    service = ExportExcelService.new
     service.write
     send_file service.filename, filename: "export.xlsx"
+  end
+
+  def export_csv
+    service = ExportCsvService.new
+    send_data service.data, filename: "export.csv", type: service.mime_type
   end
 
   private

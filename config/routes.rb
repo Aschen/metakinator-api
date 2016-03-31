@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   resources :questions
   resources :answers
   resources :sports do
-    get :export, on: :collection
+    get :export_excel, on: :collection
+    get :export_csv, on: :collection
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
