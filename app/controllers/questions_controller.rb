@@ -61,6 +61,20 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def best_question
+    unless params[:questions_id].present?
+      render json: { "errors" => "Missing questions_id param" }, status: 400 and return
+    end
+
+    questions = Question.where(id: params[:questions_id])
+    newgame = params[:newgame].present?
+
+    service = DaneelService.new
+    best = service.get_best_question(questions, newgame)
+
+    render json: { "best_question" => best.id }
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_question
