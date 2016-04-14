@@ -61,16 +61,24 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def first_question
+    questions = Question.all
+
+    service = DaneelService.new
+    best = service.get_best_question(questions, true)
+
+    render json: { "best_question" => best.id }
+  end
+
   def best_question
     unless params[:questions_id].present?
       render json: { "errors" => "Missing questions_id param" }, status: 400 and return
     end
 
     questions = Question.where(id: params[:questions_id])
-    newgame = params[:newgame].present?
 
     service = DaneelService.new
-    best = service.get_best_question(questions, newgame)
+    best = service.get_best_question(questions, false)
 
     render json: { "best_question" => best.id }
   end

@@ -25,7 +25,8 @@ class DaneelService
 
   private #=====================================================================
 
-  def calc_question_score(question)
+  def calc_question_score(question)    
+    return (1..5).inject(1) { |score, i| score *= question.answers.where(answer: i).count + 1 }
 
     # Calculate number of entities matching each answer
     answer_yes = question.answers.where(answer: 1).count + 1

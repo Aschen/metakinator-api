@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   resources :questions do
     post :best_question, on: :collection
+    post :first_question, on: :collection
   end
 
   resources :answers
