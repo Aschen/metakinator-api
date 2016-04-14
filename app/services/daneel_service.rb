@@ -6,7 +6,11 @@ class DaneelService
     @errors = []
   end
 
-  def get_best_question(questions, newgame)
+  # asked_questions: id of already asked questions
+  #
+  def get_best_question(asked_questions, newgame)
+
+    questions = Question.all - asked_questions
 
     results = questions.map do |question|
       { score: calc_question_score(question), question: question}
@@ -25,8 +29,11 @@ class DaneelService
 
   private #=====================================================================
 
-  def calc_question_score(question)    
-    return (1..5).inject(1) { |score, i| score *= question.answers.where(answer: i).count + 1 }
+  def calc_question_score(question)
+    return (1..5).inject(1) do |score, i|
+      score *= question.answers.where(answer: i)
+                               .count + 1 # Ensure we dont * by 0
+    end
 
     # Calculate number of entities matching each answer
     answer_yes = question.answers.where(answer: 1).count + 1

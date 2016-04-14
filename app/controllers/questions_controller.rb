@@ -75,10 +75,10 @@ class QuestionsController < ApplicationController
       render json: { "errors" => "Missing questions_id param" }, status: 400 and return
     end
 
-    questions = Question.where(id: params[:questions_id])
+    asked_questions = Question.where(id: params[:questions_id])
 
     service = DaneelService.new
-    best = service.get_best_question(questions, false)
+    best = service.get_best_question(asked_questions, false)
 
     render json: { "best_question" => best.id }
   end

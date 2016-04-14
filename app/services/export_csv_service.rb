@@ -4,7 +4,8 @@ class ExportCsvService
 
   attr_accessor :errors, :questions, :filename, :mime_type, :data
 
-  def initialize(filename = "export.csv")
+  def initialize(klass, filename = "export.csv")
+    @klass = klass
     @errors = []
     @filename = filename
     @mime_type = "text/csv"
@@ -21,11 +22,11 @@ class ExportCsvService
       csv.add_row(questions_nominal)
 
       # Write rows
-      Sport.all.each do |sport|
-        row = sport.answers.order(question_id: :asc).map do |answer|
+      @klass.all.each do |entity|
+        row = entity.answers.order(question_id: :asc).map do |answer|
           answer.answer
         end
-        row << sport.name.parameterize
+        row << entity.name.parameterize
         csv << row
       end
     end
