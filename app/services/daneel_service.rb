@@ -8,26 +8,34 @@ class DaneelService
 
   # asked_questions: id of already asked questions
   #
-  def get_best_question(asked_questions, newgame)
-
+  def get_best_question(asked_questions)
     questions = Question.all - asked_questions
 
+    results = calc_questions_score(questions)
+
+    results.sort_by! { |q| q[:score] }.reverse!
+
+    return results.first[:question]
+  end
+
+  def get_first_question
+    results = calc_questions_score(Question.all)
+
+    range = results.size < 10 ? results.size : 10
+    return results.first(range)[(rand() * range).to_i][:question]
+  end
+
+  private #=====================================================================
+
+  def calc_questions_score(questions)
     results = questions.map do |question|
       { score: calc_question_score(question), question: question}
     end
 
     results.sort_by! { |q| q[:score] }.reverse!
 
-    if newgame
-      # Select 10 best questions and get a random one
-      range = results.size < 10 ? results.size : 10
-      return results.first(range)[(rand() * range).to_i][:question]
-    else
-      return results.first[:question]
-    end
+    return results
   end
-
-  private #=====================================================================
 
   def calc_question_score(question)
     return (1..5).inject(1) do |score, i|
