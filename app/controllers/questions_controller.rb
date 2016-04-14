@@ -62,10 +62,8 @@ class QuestionsController < ApplicationController
   end
 
   def first_question
-    questions = Question.all
-
     service = DaneelService.new
-    best = service.get_best_question(questions, true)
+    best = service.get_first_question
 
     render json: { "best_question" => best.id }
   end
@@ -78,7 +76,7 @@ class QuestionsController < ApplicationController
     asked_questions = Question.where(id: params[:questions_id])
 
     service = DaneelService.new
-    best = service.get_best_question(asked_questions, false)
+    best = service.get_best_question(asked_questions)
 
     render json: { "best_question" => best.id }
   end
