@@ -1,0 +1,28 @@
+h1 Listing entities
+
+table
+  thead
+    tr
+      th Name
+      th
+      th
+      th
+
+  tbody
+    - @entities.each do |entity|
+      tr
+        td = entity.name
+        td = link_to 'Show', entity
+        td = link_to 'Edit', edit_entity_path(entity)
+        td = link_to 'Destroy', entity, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to "Export EXCEL", export_excel_sports_path
+br
+
+= link_to "Export CSV", export_csv_sports_path
+
+br
+
+= link_to 'New Entity', new_entity_path

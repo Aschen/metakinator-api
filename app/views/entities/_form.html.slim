@@ -1,0 +1,20 @@
+= form_for @entity do |f|
+  - if @entity.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@entity.errors.count, "error")} prohibited this entity from being saved:"
+      ul
+        - @entity.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.label :name
+    = f.text_field :name
+
+  - i = 0
+  - @questions.each do |question|
+    label "#{question.title} ?"
+    = select_tag "entity[questions][#{question.id}]", options_for_select(Hash[Answer.answers.to_a.reverse], Answer.answers[@entity.answers[i].try(:answer)])
+    br
+    - i += 1
+
+  .actions = f.submit
