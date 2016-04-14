@@ -6,7 +6,11 @@ class DaneelService
     @errors = []
   end
 
-  def get_best_question(questions, newgame)
+  # asked_questions: id of already asked questions
+  #
+  def get_best_question(asked_questions, newgame)
+
+    questions = Question.all - asked_questions
 
     results = questions.map do |question|
       { score: calc_question_score(question), question: question}
