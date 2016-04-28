@@ -1,22 +1,40 @@
 h1= "Listing #{@entity_class ? @entity_class :  "all"} entities"
 
-table
-  thead
-    tr
-      th Name
-      th
-      th
-      th
+br
+hr
 
-  tbody
-    - @entities.each do |entity|
-      tr
-        td = entity.name
-        td = link_to 'Show', entity
-        td = link_to 'Edit', edit_entity_path(entity)
-        td = link_to 'Destroy', entity, data: {:confirm => 'Are you sure?'}, :method => :delete
+- unless @entity_class
+  h2 Importer une nouvelle base de connaissances
+
+  br
+
+  = form_tag "entities/import_csv", method: :post , multipart: :true   
+      label Nom de l'entité
+      = text_field_tag 'entity[name]'
+      label Fichier CSV
+      = file_field_tag 'entity[csv_file]', accept: 'text/csv'
+      = submit_tag "Importer"
+      
+  br
+  hr
 
 - if @entity_class
+  table
+    thead
+      tr
+        th Name
+        th
+        th
+        th
+
+    tbody
+      - @entities.each do |entity|
+        tr
+          td = entity.name
+          td = link_to 'Show', entity
+          td = link_to 'Edit', edit_entity_path(entity)
+          td = link_to 'Destroy', entity, data: {:confirm => 'Are you sure?'}, :method => :delete
+
   br
 
   = link_to "Export EXCEL", export_excel_entities_path(entity_class: @entity_class)
@@ -27,3 +45,19 @@ table
   br
 
   = link_to 'New Entity', new_entity_path(entity_class: @entity_class)
+  
+
+- else 
+
+  h2 Liste des bases de connaissances disponibles
+  
+  table
+    thead
+      tr
+        th Bases de connaissances
+    tbody
+      - @entities_class.each do |entity_class|
+        tr
+          td= link_to entity_class, entities_path(entity_class: entity_class)
+
+    

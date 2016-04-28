@@ -3,7 +3,7 @@ class Entity < ActiveRecord::Base
   has_many :answers, dependent: :destroy
 
   def questions
-    Question.all
+    Question.where(entity_class: klass)
   end
 
   def add_answer(question, answer)

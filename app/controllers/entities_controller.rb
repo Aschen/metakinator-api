@@ -8,7 +8,7 @@ class EntitiesController < ApplicationController
     if @entity_class
       @entities = Entity.where(klass: @entity_class)
     else
-      @entities = Entity.all
+      @entities_class = Entity.uniq.pluck(:klass)
     end
   end
 
@@ -20,12 +20,12 @@ class EntitiesController < ApplicationController
   # GET /entities/new
   def new
     @entity = Entity.new(klass: @entity_class)
-    @questions = Question.all
+    @questions = Question.where(entity_class: @entity_class)
   end
 
   # GET /entities/1/edit
   def edit
-    @questions = Question.all
+    @questions = Question.where(entity_class: @entity_class)
   end
 
   # POST /entities
@@ -73,6 +73,17 @@ class EntitiesController < ApplicationController
     end
   end
 
+  def import_csv
+    service = ImportCsvService.new(import_params[:name], import_params[:csv_file].tempfile.path)
+
+    if service.import_csv
+      redirect_to entities_path(entity_class: import_params[:name])
+    else
+      flash[:error] = "Une erreur est survenue lors de l'import"
+      render :index
+    end
+  end
+
   def export_excel
     service = ExportExcelService.new(Entity, @entity_class)
     service.write
@@ -97,6 +108,10 @@ class EntitiesController < ApplicationController
 
     def set_entity_class
       @entity_class = params[:entity_class]
+    end
+
+    def import_params
+      params.require(:entity).permit(:name, :csv_file)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
