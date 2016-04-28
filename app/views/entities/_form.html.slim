@@ -13,7 +13,7 @@
   - i = 0
   - @questions.each do |question|
     label "#{question.title} ?"
-    = select_tag "entity[questions][#{question.id}]", options_for_select(Hash[Answer.answers.to_a.reverse], Answer.answers[@entity.answers[i].try(:answer)])
+    = select_tag "entity[questions][#{question.id}]", options_for_select(Hash[Answer.answers.to_a.reverse], Answer.answers[@entity.answers.order(question_id: :asc)[i].try(:answer)])
     br
     - i += 1
 
