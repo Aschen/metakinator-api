@@ -20,5 +20,5 @@ Rails.application.routes.draw do
     get :export_arff, on: :collection
   end
 
-  root 'entites#index'
+  root 'entities#index'
 end
