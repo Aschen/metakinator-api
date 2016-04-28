@@ -19,4 +19,6 @@ Rails.application.routes.draw do
     get :export_csv, on: :collection
     get :export_arff, on: :collection
   end
+
+  root 'entites#index'
 end
