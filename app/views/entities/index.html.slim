@@ -1,28 +1,59 @@
-h1 Listing entities
+- if @entity_class
+  h2= "Liste des entités de la base de connaissance #{@entity_class}"
 
-table
-  thead
-    tr
-      th Name
-      th
-      th
-      th
+  br
+  
+  = link_to "Nouveau #{@entity_class}", new_entity_path(entity_class: @entity_class)
 
-  tbody
-    - @entities.each do |entity|
+  br
+  br
+  
+  table
+    thead
       tr
-        td = entity.name
-        td = link_to 'Show', entity
-        td = link_to 'Edit', edit_entity_path(entity)
-        td = link_to 'Destroy', entity, data: {:confirm => 'Are you sure?'}, :method => :delete
+        th Nom
+        th
+        th
+        th
 
-br
+    tbody
+      - @entities.each do |entity|
+        tr
+          td = entity.name
+          td = link_to 'Edit', edit_entity_path(entity, entities_class: @entities_class)
+          td = link_to 'Destroy', entity, data: {:confirm => 'Are you sure?'}, :method => :delete
 
-= link_to "Export EXCEL", export_excel_sports_path
-br
+  br
 
-= link_to "Export CSV", export_csv_sports_path
+  = link_to "Export EXCEL", export_excel_entities_path(entity_class: @entity_class)
+  br
 
-br
+  = link_to "Export CSV", export_csv_entities_path(entity_class: @entity_class)
 
-= link_to 'New Entity', new_entity_path
+- else
+  
+  h2 Liste des bases de connaissances disponibles
+
+  table
+    thead
+      tr
+        th Bases de connaissances
+    tbody
+      - @entities_class.each do |entity_class|
+        tr
+          td= link_to entity_class, entities_path(entity_class: entity_class)
+
+  br
+  hr
+
+  h2 Importer une nouvelle base de connaissances
+
+  br
+
+  = form_tag "entities/import_csv", method: :post , multipart: :true   
+      label Nom de l'entité
+      = text_field_tag 'entity[name]'
+      label Fichier CSV
+      = file_field_tag 'entity[csv_file]', accept: 'text/csv'
+      = submit_tag "Importer"
+        

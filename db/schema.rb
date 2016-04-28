@@ -11,39 +11,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160428092136) do
+ActiveRecord::Schema.define(version: 20160428150358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "answers", force: :cascade do |t|
-    t.integer  "sport_id"
     t.integer  "question_id"
     t.integer  "answer",      default: 3
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.integer  "entity_id"
   end
+
+  add_index "answers", ["entity_id"], name: "index_answers_on_entity_id", using: :btree
 
   create_table "entities", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "title"
+    t.string   "klass"
   end
 
-  add_index "entities", ["title"], name: "index_entities_on_title", using: :btree
+  add_index "entities", ["klass"], name: "index_entities_on_klass", using: :btree
 
   create_table "questions", force: :cascade do |t|
     t.string   "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.string   "nominal"
+    t.string   "entity_class"
   end
 
-  create_table "sports", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+  add_index "questions", ["entity_class"], name: "index_questions_on_entity_class", using: :btree
 
 end

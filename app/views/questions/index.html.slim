@@ -1,21 +1,36 @@
-h1 Listing questions
 
-table
-  thead
-    tr
-      th Title
-      th
-      th
-      th
+- if @entity_class
+  h2= "Liste des questions de la base de connaissance #{@entity_class}"
 
-  tbody
-    - @questions.each do |question|
+  table
+    thead
       tr
-        td = question.title
-        td = link_to 'Show', question
-        td = link_to 'Edit', edit_question_path(question)
-        td = link_to 'Destroy', question, data: {:confirm => 'Are you sure?'}, :method => :delete
+        th Question
+        th
+        th
 
-br
+    tbody
+      - @questions.each do |question|
+        tr
+          td = question.title
+          td = link_to 'Editer', edit_question_path(question)
+          td = link_to 'Supprimer', question, data: {:confirm => 'Are you sure?'}, :method => :delete
 
-= link_to 'New Question', new_question_path
+  br
+
+  = link_to 'Nouvelle question', new_question_path(entity_class: @entity_class)
+
+- else
+
+  h2 Liste des bases de connaissances disponibles
+
+  table
+    thead
+      tr
+        th Bases de connaissances
+    tbody
+      - @entities_class.each do |entity_class|
+        tr
+          td= link_to entity_class, questions_path(entity_class: entity_class)
+
+  
