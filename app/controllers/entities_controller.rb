@@ -7,7 +7,7 @@ class EntitiesController < ApplicationController
   def index
     if @entity_class
       @entities = Entity.where(klass: @entity_class)
-      json = { entities: @entities }
+      json =  @entities
     else
       @entities_class = Entity.uniq.pluck(:klass)
       json = { entities_class: @entities_class }
