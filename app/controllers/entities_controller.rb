@@ -32,7 +32,7 @@ class EntitiesController < ApplicationController
 
   # GET /entities/1/edit
   def edit
-    @questions = Question.where(entity_class: @entity_class)
+    @questions = Question.where(entity_class: @entity.klass)
   end
 
   # POST /entities

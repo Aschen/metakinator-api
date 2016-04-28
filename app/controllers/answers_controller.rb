@@ -1,10 +1,11 @@
 class AnswersController < ApplicationController
   before_action :set_answer, only: [:show, :edit, :update, :destroy]
+  before_action :set_entity_class, only: [:edit, :index, :new]
 
   # GET /answers
   # GET /answers.json
   def index
-    @answers = Answer.all
+    @answers = Answer.joins(:entity).where("entities.klass = ?", @entity_class)
   end
 
   # GET /answers/1
@@ -67,8 +68,12 @@ class AnswersController < ApplicationController
       @answer = Answer.find(params[:id])
     end
 
+    def set_entity_class
+      @entity_class = params[:entity_class]
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def answer_params
-      params.require(:answer).permit(:sport_id, :question_id, :answer)
+      params.require(:answer).permit(:entity_id, :question_id, :answer)
     end
 end
