@@ -15,6 +15,7 @@ class EntitiesController < ApplicationController
   # GET /entities/new
   def new
     @entity = Entity.new
+    @questions = Question.all
   end
 
   # GET /entities/1/edit

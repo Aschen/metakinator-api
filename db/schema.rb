@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160414155940) do
+ActiveRecord::Schema.define(version: 20160428092136) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,16 +19,19 @@ ActiveRecord::Schema.define(version: 20160414155940) do
   create_table "answers", force: :cascade do |t|
     t.integer  "sport_id"
     t.integer  "question_id"
-    t.integer  "answer"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "answer",      default: 3
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "entities", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "title"
   end
+
+  add_index "entities", ["title"], name: "index_entities_on_title", using: :btree
 
   create_table "questions", force: :cascade do |t|
     t.string   "title"

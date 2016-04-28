@@ -18,15 +18,16 @@ class ExportCsvService
   def generate_csv
     ::CSV.generate do |csv|
       # Write headers
-      questions_nominal = Question.all.order(id: :asc).map { |q| q.nominal }
+      questions_nominal = ["#{@klass.name} \\ Questions"]
+      questions_nominal += Question.all.order(id: :asc).map { |q| q.nominal }
       csv.add_row(questions_nominal)
 
       # Write rows
       @klass.all.each do |entity|
-        row = entity.answers.order(question_id: :asc).map do |answer|
+        row = [entity.name.parameterize]
+        row += entity.answers.order(question_id: :asc).map do |answer|
           answer.answer
         end
-        row << entity.name.parameterize
         csv << row
       end
     end
