@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :entities do
     get :export_excel, on: :collection
     get :export_csv, on: :collection
+    get :export_arff, on: :collection
   end
 
   resources :questions do
@@ -15,5 +16,6 @@ Rails.application.routes.draw do
   resources :sports do
     get :export_excel, on: :collection
     get :export_csv, on: :collection
+    get :export_arff, on: :collection
   end
 end

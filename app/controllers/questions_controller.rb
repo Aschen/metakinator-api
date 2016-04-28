@@ -1,10 +1,11 @@
 class QuestionsController < ApplicationController
   before_action :set_question, only: [:show, :edit, :update, :destroy]
+  before_action :set_entity_class, only: [:index, :first_question, :best_question]
 
   # GET /questions
   # GET /questions.json
   def index
-    @questions = Question.all
+    @questions = Question.where(entity_class: @entity_class)
   end
 
   # GET /questions/1
@@ -62,7 +63,7 @@ class QuestionsController < ApplicationController
   end
 
   def first_question
-    service = DaneelService.new
+    service = DaneelService.new(@entity_class)
     best = service.get_first_question
 
     render json: { "best_question" => best.id }
@@ -75,10 +76,14 @@ class QuestionsController < ApplicationController
 
     asked_questions = Question.where(id: params[:questions_id])
 
-    service = DaneelService.new
+    service = DaneelService.new(@entity_class)
     best = service.get_best_question(asked_questions)
 
-    render json: { "best_question" => best.id }
+    if best
+      render json: { "best_question" => best.id }
+    else
+      render json: { "best_question" => -1, "no_more_questions" => true }
+    end
   end
 
   private
@@ -87,8 +92,13 @@ class QuestionsController < ApplicationController
       @question = Question.find(params[:id])
     end
 
+    def set_entity_class
+      @entity_class = params[:entity_class]
+      raise ArgumenError, "Missing entity_class param" unless @entity_class
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def question_params
-      params.require(:question).permit(:title, :nominal)
+      params.require(:question).permit(:title, :nominal, :entity_class)
     end
 end

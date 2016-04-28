@@ -75,6 +75,11 @@ class SportsController < ApplicationController
     send_data service.data, filename: "export.csv", type: service.mime_type
   end
 
+  def export_arff
+    service = ExportArffService.new(Sport)
+    send_data service.data, filename: service.filename, type: service.mime_type
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_sport

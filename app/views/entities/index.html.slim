@@ -1,4 +1,4 @@
-h1 Listing entities
+h1= "Listing #{@entity_class ? @entity_class :  "all"} entities"
 
 table
   thead
@@ -16,13 +16,14 @@ table
         td = link_to 'Edit', edit_entity_path(entity)
         td = link_to 'Destroy', entity, data: {:confirm => 'Are you sure?'}, :method => :delete
 
-br
+- if @entity_class
+  br
 
-= link_to "Export EXCEL", export_excel_sports_path
-br
+  = link_to "Export EXCEL", export_excel_entities_path(entity_class: @entity_class)
+  br
 
-= link_to "Export CSV", export_csv_sports_path
+  = link_to "Export CSV", export_csv_entities_path(entity_class: @entity_class)
 
-br
+  br
 
-= link_to 'New Entity', new_entity_path
+  = link_to 'New Entity', new_entity_path(entity_class: @entity_class)

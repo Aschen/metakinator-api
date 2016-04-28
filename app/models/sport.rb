@@ -1,6 +1,6 @@
 class Sport < ActiveRecord::Base
 
-  has_many :answers
+  has_many :answers, dependent: :destroy
 
   def questions
     Question.all

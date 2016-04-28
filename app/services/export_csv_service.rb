@@ -4,11 +4,12 @@ class ExportCsvService
 
   attr_accessor :errors, :questions, :filename, :mime_type, :data
 
-  def initialize(klass, filename = "export.csv")
+  def initialize(klass, entity_class, filename = "export.csv")
     @klass = klass
     @errors = []
     @filename = filename
     @mime_type = "text/csv"
+    @entity_class = entity_class
 
     @data = generate_csv
   end
@@ -18,16 +19,16 @@ class ExportCsvService
   def generate_csv
     ::CSV.generate do |csv|
       # Write headers
-      questions_nominal = ["#{@klass.name} \\ Questions"]
-      questions_nominal += Question.all.order(id: :asc).map { |q| q.nominal }
+      questions_nominal = Question.where(entity_class: @entity_class).order(id: :asc).map { |q| q.nominal }
+      questions_nominal += ["class"]
       csv.add_row(questions_nominal)
 
       # Write rows
-      @klass.all.each do |entity|
-        row = [entity.name.parameterize]
-        row += entity.answers.order(question_id: :asc).map do |answer|
+      @klass.where(klass: @entity_class).each do |entity|
+        row = entity.answers.order(question_id: :asc).map do |answer|
           answer.answer
         end
+        row += [entity.name.parameterize]
         csv << row
       end
     end
