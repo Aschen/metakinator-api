@@ -29,7 +29,7 @@ class ExportExcelService
     row = 0
     col = 1
     Question.all.order(id: :asc).each do |question|
-     @worksheet.write(row, col, question.nominal)
+     @worksheet.write(row, col, question.title)
      col += 1
     end
 

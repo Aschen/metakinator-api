@@ -15,6 +15,7 @@ class SportsController < ApplicationController
   # GET /sports/new
   def new
     @sport = Sport.new
+    @questions = Question.all
   end
 
   # GET /sports/1/edit
