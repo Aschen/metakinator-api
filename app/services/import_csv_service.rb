@@ -29,7 +29,7 @@ class ImportCsvService
 
     entity_row[0..(entity_row.count - 2)].each_with_index do |answer, i|
       answer = answer.size == 1 ? answer.to_i : answer # convert "5" to 5
-      ans = Answer.new(question_id: questions[i].id, entity_id: entity.id, answer: answer)
+      Answer.create(question_id: questions[i].id, entity_id: entity.id, answer: answer)
     end
   end
 
