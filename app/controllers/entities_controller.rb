@@ -1,6 +1,6 @@
 class EntitiesController < ApplicationController
   before_action :set_entity, only: [:show, :edit, :update, :destroy]
-  before_action :set_entity_class, only: [:edit, :index, :new, :export_csv, :export_excel, :export_arff]
+  before_action :set_entity_class, only: [:delete_class, :edit, :index, :new, :export_csv, :export_excel, :export_arff]
 
   # GET /entities
   # GET /entities.json
@@ -78,6 +78,13 @@ class EntitiesController < ApplicationController
       format.html { redirect_to entities_url, notice: 'Entity was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def delete_class
+    Entity.where(klass: @entity_class).destroy_all
+    Question.where(entity_class: @entity_class).delete_all
+    flash[:notice] = "Base de connaissance supprimé"
+    redirect_to entities_path
   end
 
   def import_csv
