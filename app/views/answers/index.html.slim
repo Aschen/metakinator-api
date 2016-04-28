@@ -3,7 +3,7 @@ h1 Listing answers
 table
   thead
     tr
-      th Sport
+      th Entite
       th Question
       th Answer
       th
@@ -13,7 +13,7 @@ table
   tbody
     - @answers.each do |answer|
       tr
-        td = answer.sport_id
+        td = answer.entity_id
         td = answer.question_id
         td = answer.answer
         td = link_to 'Show', answer
