@@ -6,6 +6,9 @@
   = link_to "Nouveau #{@entity_class}", new_entity_path(entity_class: @entity_class)
 
   br
+  
+  = link_to "Questions de la base de connaissance", questions_path(entity_class: @entity_class)
+  
   br
   
   table
