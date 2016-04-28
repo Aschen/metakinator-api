@@ -23,7 +23,7 @@ class ImportCsvService
 
   def import_entity(entity_row)
     entity_name = entity_row[-1]
-    entity = Entity.create(name: entity_name, klass: @entity_class)
+    entity = Entity.create(name: entity_name.capitalize, klass: @entity_class)
 
     questions = Question.where(entity_class: @entity_class).order(id: :asc)
 

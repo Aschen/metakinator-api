@@ -38,10 +38,12 @@
     thead
       tr
         th Bases de connaissances
+        th
     tbody
       - @entities_class.each do |entity_class|
         tr
           td= link_to entity_class, entities_path(entity_class: entity_class)
+          td= link_to 'Supprimer', delete_class_entities_path(entity_class: entity_class), data: { :confirm => 'Are you sure?' }, :method => :delete
 
   br
   hr
