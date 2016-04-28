@@ -1,7 +1,6 @@
 class Answer < ActiveRecord::Base
 
   belongs_to :question
-  belongs_to :sport
   belongs_to :entity
 
   enum answer: {
