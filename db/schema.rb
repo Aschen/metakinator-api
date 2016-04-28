@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160428131834) do
+ActiveRecord::Schema.define(version: 20160428150358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,11 +44,5 @@ ActiveRecord::Schema.define(version: 20160428131834) do
   end
 
   add_index "questions", ["entity_class"], name: "index_questions_on_entity_class", using: :btree
-
-  create_table "sports", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
 end

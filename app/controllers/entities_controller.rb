@@ -1,14 +1,21 @@
 class EntitiesController < ApplicationController
   before_action :set_entity, only: [:show, :edit, :update, :destroy]
-  before_action :set_entity_class, only: [:index, :new, :export_csv, :export_excel, :export_arff]
+  before_action :set_entity_class, only: [:edit, :index, :new, :export_csv, :export_excel, :export_arff]
 
   # GET /entities
   # GET /entities.json
   def index
     if @entity_class
       @entities = Entity.where(klass: @entity_class)
+      json = { entities: @entities }
     else
       @entities_class = Entity.uniq.pluck(:klass)
+      json = { entities_class: @entities_class }
+    end
+
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: json }
     end
   end
 
