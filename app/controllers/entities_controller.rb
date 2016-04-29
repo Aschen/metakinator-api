@@ -7,15 +7,8 @@ class EntitiesController < ApplicationController
   def index
     if @entity_class
       @entities = Entity.where(klass: @entity_class)
-      json =  @entities
     else
       @entities_class = Entity.uniq.pluck(:klass)
-      json = { entities_class: @entities_class }
-    end
-
-    respond_to do |format|
-      format.html { render :index }
-      format.json { render json: json }
     end
   end
 
