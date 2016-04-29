@@ -43,22 +43,9 @@ class DaneelService
   end
 
   def calc_question_score(question)
-    return (1..5).inject(1) do |score, i|
-      score *= question.answers.where(answer: i)
-                               .count + 1 # Ensure we dont * by 0
+    (1..5).inject(1) do |score, i|
+      score *= question.answers.where(answer: i).count + 1 # Ensure we dont * by 0
     end
-
-    # Calculate number of entities matching each answer
-    answer_yes = question.answers.where(answer: 1).count + 1
-    answer_probably_yes = question.answers.where(answer: 2).count + 1
-    answer_dont_know = question.answers.where(answer: 3).count + 1
-    answer_probably_no = question.answers.where(answer: 4).count + 1
-    answer_no = question.answers.where(answer: 5).count + 1
-
-    # Calculate score for question
-    score = answer_yes * answer_probably_yes * answer_dont_know * answer_probably_no * answer_no
-
-    return score
   end
 
 end
