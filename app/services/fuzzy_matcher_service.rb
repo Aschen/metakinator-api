@@ -1,6 +1,6 @@
 class FuzzyMatcherService
 
-  THRESHOLD = 0.5
+  THRESHOLD = 0.3
 
   attr_reader :entity_class
 
