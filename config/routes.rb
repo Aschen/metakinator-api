@@ -2,10 +2,14 @@ Rails.application.routes.draw do
 
   resources :entities do
     post :import_csv, on: :collection
-    delete :delete_class, on: :collection
+
     get :export_excel, on: :collection
     get :export_csv, on: :collection
     get :export_arff, on: :collection
+
+    delete :delete_class, on: :collection
+
+    post :fuzzy_match, on: :collection
   end
 
   resources :questions do
@@ -14,6 +18,6 @@ Rails.application.routes.draw do
   end
 
   resources :answers
-  
+
   root 'entities#index'
 end
