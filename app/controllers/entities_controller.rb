@@ -1,6 +1,6 @@
 class EntitiesController < ApplicationController
   before_action :set_entity, only: [:show, :edit, :update, :destroy]
-  before_action :set_entity_class, only: [:delete_class, :edit, :index, :new, :export_csv, :export_excel, :export_arff]
+  before_action :set_entity_class, except: [:show, :create, :update, :destroy]
 
   # GET /entities
   # GET /entities.json
@@ -107,6 +107,21 @@ class EntitiesController < ApplicationController
     send_data service.data, filename: service.filename, type: service.mime_type
   end
 
+  def fuzzy_match
+    unless params[:name].present?
+      render json: { "errors" => "Missing name param" }, status: 400 and return
+    end
+
+    service = FuzzyMatcherService.new(@entity_class)
+    best_match = service.find_match(params[:name])
+
+    if best_match
+      render json: { "best_match" => best_match, "found" => true }
+    else
+      render json: { "found" => false }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_entity
@@ -114,6 +129,10 @@ class EntitiesController < ApplicationController
     end
 
     def set_entity_class
+      unless params[:entity_class].present?
+        render json: { "errors" => "Missing entity_class param" }, status: 400 and return
+      end
+
       @entity_class = params[:entity_class]
     end
 
