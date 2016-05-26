@@ -56,7 +56,7 @@
   br
 
   = form_tag "entities/import_csv", method: :post , multipart: :true   
-      label Nom de l'entité
+      label Nom de la base de connaissances
       = text_field_tag 'entity[name]'
       label Fichier CSV
       = file_field_tag 'entity[csv_file]', accept: 'text/csv'
