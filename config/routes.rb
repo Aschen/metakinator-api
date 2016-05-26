@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     delete :delete_class, on: :collection
 
     post :fuzzy_match, on: :collection
+
+    post :add_entity, on: :collection
   end
 
   resources :questions do
