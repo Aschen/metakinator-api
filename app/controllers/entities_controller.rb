@@ -1,10 +1,11 @@
 class EntitiesController < ApplicationController
   before_action :set_entity, only: [:show, :edit, :update, :destroy]
-  before_action :set_entity_class, except: [:show, :create, :update, :destroy]
+  before_action :set_entity_class, except: [:index, :show, :create, :update, :destroy, :edit]
 
   # GET /entities
   # GET /entities.json
   def index
+    @entity_class = params[:entity_class]
     if @entity_class
       @entities = Entity.where(klass: @entity_class)
     else
@@ -119,6 +120,18 @@ class EntitiesController < ApplicationController
       render json: { "best_match" => best_match, "found" => true }
     else
       render json: { "found" => false }
+    end
+  end
+
+  def add_entity
+    if params[:entity_name].empty? || params[:questions].empty?
+      render json: { "errors" => "Missing entity_name or questions param" }, status: 400 and return
+    end
+
+    service = EntitiesService.new(@entity_class)
+
+    if service.add_entity(params[:entity_name], params[:questions])
+    else
     end
   end
 
