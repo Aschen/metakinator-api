@@ -1,6 +1,6 @@
 class EntitiesController < ApplicationController
   before_action :set_entity, only: [:show, :edit, :update, :destroy]
-  before_action :set_entity_class, except: [:index, :show, :create, :update, :destroy, :edit]
+  before_action :set_entity_class, except: [:index, :show, :create, :update, :destroy, :edit, :import_csv]
 
   # GET /entities
   # GET /entities.json
@@ -124,7 +124,7 @@ class EntitiesController < ApplicationController
   end
 
   def add_entity
-    if params[:entity_name].empty? || params[:questions].empty?
+    if params[:entity_name].blank? || params[:questions].blank?
       render json: { "errors" => "Missing entity_name or questions param" }, status: 400 and return
     end
 
