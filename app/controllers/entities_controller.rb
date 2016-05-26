@@ -128,11 +128,15 @@ class EntitiesController < ApplicationController
       render json: { "errors" => "Missing entity_name or questions param" }, status: 400 and return
     end
 
+    if Entity.where(name: params[:entity_name].capitalize).any?
+      render json: { "errors" => "Entity #{params[:entity_name].capitalize} already exist !" }, status: 400 and return
+    end
+
     service = EntitiesService.new(@entity_class)
 
-    if service.add_entity(params[:entity_name], params[:questions])
-    else
-    end
+    success = service.add_entity(params[:entity_name].capitalize, params[:questions])
+
+    render json: { "success" => success }, status: success ? 200 : 400
   end
 
   private
