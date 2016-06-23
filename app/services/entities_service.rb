@@ -13,8 +13,8 @@ class EntitiesService
       new_entity = Entity.create(name: entity_name, klass: @entity_class)
 
       question_ids = questions.map do |question|
-        Answer.create(question_id: question[:id],
-                      answer: question[:answer],
+        Answer.create(question_id: question['id'],
+                      answer: question['answer'],
                       entity_id: new_entity.id)
         question[:id]
       end
