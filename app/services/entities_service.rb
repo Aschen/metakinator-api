@@ -8,6 +8,7 @@ class EntitiesService
   end
 
   def add_entity(entity_name, questions)
+    questions = questions.is_a?(String) ? JSON.parse(questions) : questions
     ActiveRecord::Base.transaction do
       new_entity = Entity.create(name: entity_name, klass: @entity_class)
 
