@@ -4,7 +4,7 @@ Metakinator is a game based on [Akinator](http://en.akinator.com/).
 We took the main concept which is to guess characters relying on a set of question/answers.  
 In this version we have multiple knowledge base and you can import or export new one as you want.  
 
-This repository is about the API part of the game. If you want to see the Android application this is [here](https://github.com/Aschen/akinasport).  
+This repository is about the API part of the game. If you want to see the Android application this is [here](https://github.com/Aschen/metakinator).  
 
 This application is build with Ruby-On-Rails.
 
